@@ -4,6 +4,7 @@
 //!
 //! # Example
 //! ```rust
+//! // Remember to import the `Inflect` trait!
 //! use inflections::Inflect;
 //!
 //! assert_eq!("Hello World".to_camel_case(), "helloWorld".to_owned());
@@ -20,6 +21,7 @@ pub mod case;
 ///
 /// # Example
 /// ```rust
+/// // Remember to import the `Inflect` trait!
 /// use inflections::Inflect;
 ///
 /// assert_eq!("Hello World".to_camel_case(), "helloWorld".to_owned());

@@ -6,3 +6,4 @@ keywords = ["inflector", "inflections", "inflect", "case", "camel", "snake"]
 authors = ["Caleb Meredith <calebmeredith8@gmail.com>"]
 license = "MIT"
 repository = "calebmer/inflections"
+documentation = "https://calebmer.github.io/inflections"
