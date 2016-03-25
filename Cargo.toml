@@ -5,5 +5,5 @@ description = "High performance inflection transformation library for changing p
 keywords = ["inflect", "case", "camel"]
 authors = ["Caleb Meredith <calebmeredith8@gmail.com>"]
 license = "MIT"
-repository = "calebmer/inflections"
+repository = "https://github.com/calebmer/inflections"
 documentation = "http://calebmer.com/inflections/inflections"
