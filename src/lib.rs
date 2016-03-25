@@ -9,10 +9,6 @@
 //! assert_eq!("Hello World".to_camel_case(), "helloWorld".to_owned());
 //! ```
 
-#![feature(test)]
-
-extern crate test;
-
 pub mod case;
 
 /// A trait which proxies the other methods from this crate in a method syntax
