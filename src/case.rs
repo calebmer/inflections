@@ -18,7 +18,7 @@
 use std::char::ToUppercase;
 use std::iter::Peekable;
 
-/// Converts any case into lower case ignoring seperators.
+/// Converts any case into lower case ignoring separators.
 ///
 /// # Example
 /// ```rust
@@ -59,7 +59,7 @@ pub fn is_lower_case(string: &str) -> bool {
   string == to_lower_case(string)
 }
 
-/// Converts any case into UPPER CASE ignoring seperators.
+/// Converts any case into UPPER CASE ignoring separators.
 ///
 /// # Example
 /// ```rust
@@ -120,7 +120,7 @@ pub fn is_upper_case(string: &str) -> bool {
 pub fn to_sentence_case(string: &str) -> String {
   string
   .chars()
-  .map(|c| swap_seperator(c, ' '))
+  .map(|c| swap_separator(c, ' '))
   .break_camel(' ')
   .flat_map(char::to_lowercase)
   .collect()
@@ -163,7 +163,7 @@ pub fn is_sentence_case(string: &str) -> bool {
 pub fn to_title_case(string: &str) -> String {
   string
   .chars()
-  .map(|c| swap_seperator(c, ' '))
+  .map(|c| swap_separator(c, ' '))
   .break_camel(' ')
   .flat_map(char::to_lowercase)
   .capitalize_words()
@@ -289,7 +289,7 @@ pub fn is_pascal_case(string: &str) -> bool {
 pub fn to_kebab_case(string: &str) -> String {
   string
   .chars()
-  .map(|c| swap_seperator(c, '-'))
+  .map(|c| swap_separator(c, '-'))
   .break_camel('-')
   .flat_map(char::to_lowercase)
   .collect()
@@ -332,7 +332,7 @@ pub fn is_kebab_case(string: &str) -> bool {
 pub fn to_train_case(string: &str) -> String {
   string
   .chars()
-  .map(|c| swap_seperator(c, '-'))
+  .map(|c| swap_separator(c, '-'))
   .break_camel('-')
   .flat_map(char::to_lowercase)
   .capitalize_words()
@@ -376,7 +376,7 @@ pub fn is_train_case(string: &str) -> bool {
 pub fn to_snake_case(string: &str) -> String {
   string
   .chars()
-  .map(|c| swap_seperator(c, '_'))
+  .map(|c| swap_separator(c, '_'))
   .break_camel('_')
   .flat_map(char::to_lowercase)
   .collect()
@@ -419,7 +419,7 @@ pub fn is_snake_case(string: &str) -> bool {
 pub fn to_constant_case(string: &str) -> String {
   string
   .chars()
-  .map(|c| swap_seperator(c, '_'))
+  .map(|c| swap_separator(c, '_'))
   .break_camel('_')
   .flat_map(char::to_uppercase)
   .collect()
@@ -443,18 +443,18 @@ pub fn is_constant_case(string: &str) -> bool {
   string == to_constant_case(string)
 }
 
-/// Checks if a character is a seperator.
+/// Checks if a character is a separator.
 #[inline]
-fn is_seperator(c: char) -> bool {
+fn is_separator(c: char) -> bool {
   c == ' ' || c == '-' || c == '_'
 }
 
-/// Swaps the current character (which may be a seperator), with the seperator
-/// of choice. Currently ' ', '-', and '_' are considered seperators which will
+/// Swaps the current character (which may be a separator), with the separator
+/// of choice. Currently ' ', '-', and '_' are considered separators which will
 /// be swapped.
 #[inline]
-fn swap_seperator(c: char, sep: char) -> char {
-  if is_seperator(c) {
+fn swap_separator(c: char, sep: char) -> char {
+  if is_separator(c) {
     sep
   } else {
     c
@@ -477,9 +477,9 @@ fn scan_to_camel(state: &mut (bool, Option<char>), curr: char) -> Option<String>
     // capitalize it and mark the state as finished.
     state.0 = false;
     Some(curr.to_uppercase().collect())
-  } else if is_seperator(curr) {
-    // If the current character is a seperator, mark the state to capitalize
-    // the next character and remove the seperator.
+  } else if is_separator(curr) {
+    // If the current character is a separator, mark the state to capitalize
+    // the next character and remove the separator.
     state.0 = true;
     Some("".to_owned())
   } else if !last.map_or(false, char::is_lowercase) {
@@ -510,12 +510,12 @@ trait Extras: Iterator<Item=char> {
   }
 
   /// Uses the `CapitalizeWords` type to capitilize individual words seperated
-  /// by a seperator (as defined by `is_seperator`).
+  /// by a separator (as defined by `is_separator`).
   #[inline]
   fn capitalize_words(self) -> CapitalizeWords<Self> where Self: Sized {
     let mut iter = self.peekable();
-    // If the first character is not a seperator, we want to capitilize it.
-    let cap = !iter.peek().cloned().map_or(false, is_seperator);
+    // If the first character is not a separator, we want to capitilize it.
+    let cap = !iter.peek().cloned().map_or(false, is_separator);
     CapitalizeWords {
       iter: iter,
       cap: cap,
@@ -542,7 +542,7 @@ impl<I> Iterator for BreakCamel<I> where I: Iterator<Item=char> {
 
   #[inline]
   fn next(&mut self) -> Option<Self::Item> {
-    // If we have been signaled to break, the next item is a seperator and we
+    // If we have been signaled to break, the next item is a separator and we
     // should disable break mode.
     if self.br {
       self.br = false;
@@ -605,10 +605,10 @@ impl<I> Iterator for CapitalizeWords<I> where I: Iterator<Item=char> {
           self.upper = Some(c.to_uppercase());
           // We want it to loop back here…
         } else {
-          // Otherwise return the character, but if it is a seperator, and the
-          // next character is not a seperator—signal the next character should
+          // Otherwise return the character, but if it is a separator, and the
+          // next character is not a separator—signal the next character should
           // be capitalized.
-          if is_seperator(c) && !self.iter.peek().cloned().map_or(false, is_seperator) {
+          if is_separator(c) && !self.iter.peek().cloned().map_or(false, is_separator) {
             self.cap = true;
           }
           return Some(c);
