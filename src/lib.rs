@@ -27,6 +27,10 @@ pub mod case;
 /// assert_eq!("Hello World".to_camel_case(), "helloWorld".to_owned());
 /// ```
 pub trait Inflect {
+  fn to_upper_case(&self) -> String;
+  fn is_upper_case(&self) -> bool;
+  fn to_lower_case(&self) -> String;
+  fn is_lower_case(&self) -> bool;
   fn to_sentence_case(&self) -> String;
   fn is_sentence_case(&self) -> bool;
   fn to_title_case(&self) -> String;
@@ -46,6 +50,10 @@ pub trait Inflect {
 }
 
 impl Inflect for str {
+  #[inline] fn to_upper_case(&self) -> String { case::to_upper_case(self) }
+  #[inline] fn is_upper_case(&self) -> bool { case::is_upper_case(self) }
+  #[inline] fn to_lower_case(&self) -> String { case::to_lower_case(self) }
+  #[inline] fn is_lower_case(&self) -> bool { case::is_lower_case(self) }
   #[inline] fn to_sentence_case(&self) -> String { case::to_sentence_case(self) }
   #[inline] fn is_sentence_case(&self) -> bool { case::is_sentence_case(self) }
   #[inline] fn to_title_case(&self) -> String { case::to_title_case(self) }
