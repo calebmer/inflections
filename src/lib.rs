@@ -45,7 +45,7 @@ pub trait Inflect {
   fn is_constant_case(&self) -> bool;
 }
 
-impl<'a> Inflect for &'a str {
+impl Inflect for str {
   #[inline] fn to_sentence_case(&self) -> String { case::to_sentence_case(self) }
   #[inline] fn is_sentence_case(&self) -> bool { case::is_sentence_case(self) }
   #[inline] fn to_title_case(&self) -> String { case::to_title_case(self) }
@@ -64,21 +64,17 @@ impl<'a> Inflect for &'a str {
   #[inline] fn is_constant_case(&self) -> bool { case::is_constant_case(self) }
 }
 
-impl Inflect for String {
-  #[inline] fn to_sentence_case(&self) -> String { case::to_sentence_case(&self) }
-  #[inline] fn is_sentence_case(&self) -> bool { case::is_sentence_case(&self) }
-  #[inline] fn to_title_case(&self) -> String { case::to_title_case(&self) }
-  #[inline] fn is_title_case(&self) -> bool { case::is_title_case(&self) }
-  #[inline] fn to_camel_case(&self) -> String { case::to_camel_case(&self) }
-  #[inline] fn is_camel_case(&self) -> bool { case::is_camel_case(&self) }
-  #[inline] fn to_pascal_case(&self) -> String { case::to_pascal_case(&self) }
-  #[inline] fn is_pascal_case(&self) -> bool { case::is_pascal_case(&self) }
-  #[inline] fn to_kebab_case(&self) -> String { case::to_kebab_case(&self) }
-  #[inline] fn is_kebab_case(&self) -> bool { case::is_kebab_case(&self) }
-  #[inline] fn to_train_case(&self) -> String { case::to_train_case(&self) }
-  #[inline] fn is_train_case(&self) -> bool { case::is_train_case(&self) }
-  #[inline] fn to_snake_case(&self) -> String { case::to_snake_case(&self) }
-  #[inline] fn is_snake_case(&self) -> bool { case::is_snake_case(&self) }
-  #[inline] fn to_constant_case(&self) -> String { case::to_constant_case(&self) }
-  #[inline] fn is_constant_case(&self) -> bool { case::is_constant_case(&self) }
+#[cfg(test)]
+mod test {
+  use super::Inflect;
+
+  #[test]
+  fn test_str() {
+    assert_eq!("foo".to_title_case(), "Foo".to_owned());
+  }
+
+  #[test]
+  fn test_string() {
+    assert_eq!("foo".to_owned().to_title_case(), "Foo".to_owned());
+  }
 }
