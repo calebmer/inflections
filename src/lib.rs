@@ -12,20 +12,24 @@
 
 pub mod case;
 
-/// A trait which proxies the other methods from this crate in a method syntax
-/// on `&str` and `String`. The only ways these methods change is the string
-/// parameter becomes `&self`.
-///
-/// If your are trying to implement this trait for your own types, be warned
-/// methods may be added without a breaking change in semantic versioning.
+/// An extension trait to make the functions in the `case` module available as
+/// methods on the `str` type.
 ///
 /// # Example
+///
 /// ```rust
 /// // Remember to import the `Inflect` trait!
 /// use inflections::Inflect;
 ///
 /// assert_eq!("Hello World".to_camel_case(), "helloWorld".to_owned());
 /// ```
+///
+/// # Stability
+///
+/// This trait is *not* meant to be used for generic programming. We reserve
+/// the right to add more methods to this trait and to change the
+/// implementations of this trait for primitive types *without making a major
+/// version release* as long as we don't break existing method calls.
 pub trait Inflect {
   fn to_upper_case(&self) -> String;
   fn is_upper_case(&self) -> bool;
